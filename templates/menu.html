@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{% block title %}Banca Web{% endblock %}</title>
+
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+      crossorigin="anonymous"
+    ></script>
+
+    <link href="styles.css" rel="stylesheet" />
+    <style>
+      .navbar {
+        background-color: #9984D4; /* Color de fondo azul */
+        padding: 10px; /* Añade espacio alrededor del menú */
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <nav
+        class="navbar navbar-brand navbar-expand-md border-3 border-bottom border-secondary"
+      >
+        <div class="container-fluid">
+          <h1 class="navbar-brand">
+            <i class="fas fa-piggy-bank"></i> B. OFMD
+          </h1>
+
+          <a href="{{ url_for('movimientos') }}" class="navbar-brand"
+            ><i class="fas fa-money-check-alt"></i> Movimientos</a
+          >
+
+          <a href="{{ url_for('ingreso') }}" class="navbar-brand"
+            ><i class="fas fa-money-bill-wave-alt"></i> Ingreso</a
+          >
+
+          <a href="{{ url_for('egreso') }}" class="navbar-brand"
+            ><i class="fas fa-wallet"></i> Egreso</a
+          >
+
+          <a href="{{ url_for('perfil') }}" class="navbar-brand"
+            ><i class="fas fa-user"></i> Perfil</a
+          >
+
+          <a href="{{ url_for('logout') }}" class="navbar-brand"
+            ><i class="fas fa-sign-out-alt"></i
+          ></a>
+        </div>
+      </nav>
+    </header>
+    <div class="container">
+      <div class="menu">
+        <ul class="botones"></ul>
+      </div>
+      {% block content %}{% endblock %}
+    </div>
+  </body>
+</html>

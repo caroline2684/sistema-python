@@ -1,0 +1,66 @@
+{% extends 'menu.html' %} {% block title %}Ingreso - Banca Web{% endblock %} {%
+block content %}
+<style>
+  .saldo-actual {
+    background-color: #592E83; /* Fondo azul */
+    color: #fff; /* Texto blanco */
+    padding: 10px; /* Espaciado interno */
+    border-radius: 5px; /* Esquinas redondeadas */
+    font-size: 18px; /* Tamaño de fuente más grande */
+  }
+</style>
+<body class="bg-gray-200">
+  <div class="container mt-5">
+    <div class="col-lg-6 col-md-8 col-12 mx-auto">
+      <div class="card shadow">
+        <div class="card-header text-center">
+          <h1><i class="fas fa-coins"></i> Ingresar Saldo</h1>
+        </div>
+        <div class="card-body">
+          <form action="/ingreso" method="post">
+            <div class="mb-3">
+              <label for="monto" class="form-label">Saldo a ingresar:</label>
+              <div class="input-group">
+                <input
+                  type="number"
+                  id="monto"
+                  name="monto"
+                  class="form-control"
+                />
+                <span class="input-group-text">$</span>
+              </div>
+            </div>
+            <center>
+              <button class="btn btn-primary btn-block mb-3" type="submit">
+                <i class="fas fa-check"></i> Realizar Ingreso
+              </button>
+            </center>
+          </form>
+          <p class="text-center saldo-actual">
+            <i class="fas fa-wallet"></i> Saldo actual: ${{ monto }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script>
+  function dashboard() {
+    location.href = "http://127.0.0.1:5000/movimientos";
+  }
+
+  function ingreso(ingreso) {
+    location.href = "http://127.0.0.1:5000/ingreso";
+  }
+  function egreso(ingreso) {
+    location.href = "http://127.0.0.1:5000/egreso";
+  }
+  function actualizar(params) {
+    location.href = "http://127.0.0.1:5000/actualizar";
+  }
+  function cerrarSesion() {
+    location.href = "http://127.0.0.1:5000";
+  }
+</script>
+{% endblock %}

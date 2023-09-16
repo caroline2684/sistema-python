@@ -1,0 +1,17 @@
+/* styles.css */
+.navbar {
+    background-color: #813939 !important; /* Color de fondo pastel */
+    border: none; /* Eliminar el borde */
+  }
+  
+  .navbar a.navbar-brand {
+    color: #5a5a5a !important; /* Color de texto gris */
+    font-weight: bold; /* Texto en negrita */
+    font-size: 1.2em; /* Tamaño de fuente más grande */
+    text-decoration: none; /* Eliminar subrayado */
+    margin-right: 20px; /* Espaciado entre elementos */
+  }
+/* styles.css */
+
+
+  

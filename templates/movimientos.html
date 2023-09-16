@@ -1,0 +1,92 @@
+{% extends 'menu.html' %} {% block title %}Movimientos - Banca Web{% endblock %}
+{% block content %}
+<div class="container mt-5">
+  <form method="get" action="/movimientos">
+    <div class="d-flex justify-content-center">
+      <div class="input-group mb-3">
+        <div class="col-lg-4 pr-2">
+          <input
+            type="date"
+            id="fecha_inicio"
+            name="fecha_inicio"
+            class="form-control"
+          />
+        </div>
+        <div class="col-lg-4 pr-2">
+          <input
+            type="date"
+            id="fecha_fin"
+            name="fecha_fin"
+            class="form-control"
+          />
+        </div>
+        <div class="col-lg-4">
+          <button type="submit" class="btn btn-primary btn-block">
+            Filtrar
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card my-4">
+        <div class="card-header">
+          <h2 class="text-primary text-center">
+            <i class="fas fa-history"></i> Historial de Transacciones
+          </h2>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Registro</th>
+                <th class="text-center">Tipo de Transacción</th>
+                <th class="text-center">Valor</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in data %}
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <i class="fas fa-calendar-alt mr-2"></i>
+                    <span class="text-sm">{{ item['date'] }}</span>
+                  </div>
+                </td>
+                <td class="align-middle text-center">
+                  {% if item['Type'] == 1 %}
+                  <span class="text-success">
+                    <i class="fas fa-arrow-up"></i> Ingreso
+                  </span>
+                  {% elif item['Type'] == 2 %}
+                  <span class="text-danger">
+                    <i class="fas fa-arrow-down"></i> Egreso
+                  </span>
+                  {% endif %}
+                </td>
+                <td class="align-middle text-center">
+                  <span class="text-xs font-weight-bold"
+                    >${{ item['mount'] }}</span
+                  >
+                </td>
+              </tr>
+              {% endfor %} 
+              {% if not data %}
+              <tr>
+                <td colspan="4" class="text-center">
+                  No se encontraron transacciones.
+                </td>
+              </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

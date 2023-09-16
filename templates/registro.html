@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Banca Web</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Agregar Font Awesome para iconos -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <style>
+      body {
+        background-color: #f0f0f0;
+      }
+
+      .card {
+        margin-top: 50px;
+      }
+
+      .card-title {
+        font-size: 1.5rem;
+      }
+
+      .card-body {
+        padding: 30px;
+      }
+
+      .form-label {
+        font-weight: bold;
+      }
+
+      .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+      }
+
+      .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1 class="text-center mt-5 mb-5 text-primary">
+        <i class="fas fa-university"></i> Banca Web
+      </h1>
+      <div class="col-lg-4 col-md-6 col-sm-12 mx-auto">
+        <div class="card">
+          <div class="card-body">
+            <h1 class="card-title text-center text-primary">
+              <i class="fas fa-user-plus"></i> Registrarse
+            </h1>
+            <form role="form" action="/sign-up" method="post">
+              <div class="form-group">
+                <label class="form-label">Nombres:</label>
+                <input
+                  type="text"
+                  id="nombre"
+                  name="nombre"
+                  required
+                  class="form-control"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Apellidos:</label>
+                <input
+                  type="text"
+                  id="apellido"
+                  name="apellido"
+                  required
+                  class="form-control"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Número de Cédula:</label>
+                <input
+                  type="number"
+                  id="dni"
+                  name="dni"
+                  required
+                  class="form-control"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nombre de Usuario:</label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  required
+                  class="form-control"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Contraseña:</label>
+                <input
+                  type="password"
+                  id="contrasena"
+                  name="contrasena"
+                  required
+                  class="form-control"
+                />
+              </div>
+              <br />
+              <div class="form-group text-center">
+                <button class="btn btn-primary btn-block" type="submit">
+                  <i class="fas fa-check-circle"></i> ¡Registrarse!
+                </button>
+              </div>
+            </form>
+            <p class="mt-4 text-center">
+              ¿Ya tienes una cuenta?
+              <a
+                href="{{ url_for('logout') }}"
+                class="text-primary font-weight-bold"
+                ><i class="fas fa-sign-in-alt"></i> Iniciar sesión</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
