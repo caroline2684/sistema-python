@@ -1,25 +1,32 @@
 {% extends 'menu.html' %} {% block title %}Perfil de Usuario - Banca Web{%
 endblock %} {% block content %}
 <style>
-  .btn btn-primary{
-    background-color: #9984D4;
+  .btn-primary {
+    background-color: #592e83;
+    border-color: #592e83;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
   }
 </style>
 <div class="container">
-  <h1 class="text-center"><i class="fas fa-user"></i> Perfil de Usuario</h1>
+  <h1 class="text-center"><i class="fas fa-user"> Perfil de Usuario</i></h1>
   <div class="d-flex justify-content-center">
     <div class="card mt-4">
       <div class="card-body">
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
-            <i class="fas fa-user-circle"></i>
-            <strong>Nombre de Usuario:</strong> {{ username }}
+            <i class="fas fa-user-circle">
+              <strong>Nombre de Usuario:</strong> {{ username }}</i
+            >
           </li>
           <li class="list-group-item">
-            <i class="fas fa-user"></i> <strong>Nombre:</strong> {{ name }}
+            <i class="fas fa-user"> <strong>Nombre:</strong> {{ name }}</i>
           </li>
           <li class="list-group-item">
-            <i class="fas fa-id-card"></i> <strong>DNI:</strong> {{ dni }}
+            <i class="fas fa-id-card"> <strong>DNI:</strong> {{ dni }}</i>
           </li>
         </ul>
       </div>

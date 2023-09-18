@@ -48,20 +48,25 @@
       }
 
       .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
+        background-color: #592e83;
+        border-color: #592e83;
       }
 
       .btn-primary:hover {
         background-color: #0056b3;
         border-color: #0056b3;
       }
+      .fa-university,
+      .fa-unlock,
+      .fa-user-plus {
+        color: #592e83;
+      }
     </style>
   </head>
 
   <body>
     <h1 class="text-center mt-5 mb-5 text-primary">
-      <i class="fas fa-university"></i> Bienvenido a Banca Web
+      <i class="fas fa-university"> Bienvenido a Banca Web</i>
     </h1>
     <div class="container">
       <div class="row justify-content-center">
@@ -69,7 +74,7 @@
           <div class="card">
             <div class="card-body">
               <h1 class="card-title text-center text-primary">
-                <i class="fas fa-unlock"></i> Iniciar Sesión
+                <i class="fas fa-unlock"> Iniciar Sesion</i>
               </h1>
               <form role="form" action="/login" method="post">
                 <div class="form-group">
@@ -95,7 +100,7 @@
                 <br />
                 <div class="form-group text-center">
                   <button class="btn btn-primary btn-block" type="submit">
-                    <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                    <i class="fas fa-sign-in-alt"></i> Iniciar Sesion
                   </button>
                 </div>
               </form>
@@ -104,7 +109,7 @@
                 <a
                   href="{{ url_for('sign_up') }}"
                   class="text-primary font-weight-bold"
-                  ><i class="fas fa-user-plus"></i> Registrarse</a
+                  ><i class="fas fa-user-plus"> Registrarse</i></a
                 >
               </p>
             </div>

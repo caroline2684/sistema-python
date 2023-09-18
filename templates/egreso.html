@@ -30,6 +30,7 @@ block content %}
           <form action="/egreso" method="post">
             <div class="form-group">
               <label for="monto">Saldo a egresar:</label>
+              <br /><br />
               <div class="input-group">
                 <input
                   type="number"
@@ -37,9 +38,7 @@ block content %}
                   name="monto"
                   class="form-control"
                 />
-                <div class="input-group-append">
-                  <span class="input-group-text">$</span>
-                </div>
+                <span class="input-group-text">$</span>
               </div>
             </div>
             <center>
@@ -48,7 +47,7 @@ block content %}
               </button>
             </center>
           </form>
-          <br>
+          <br />
           <p class="text-center saldo-actual">
             <i class="fas fa-wallet"></i> Saldo actual: ${{ monto }}
           </p>

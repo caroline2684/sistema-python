@@ -1,5 +1,19 @@
 {% extends 'menu.html' %} {% block title %}Movimientos - Banca Web{% endblock %}
 {% block content %}
+<style>
+  .container {
+    background-image: url("/frontend/images/fondo.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+  }
+  .btn-primary {
+    background-color: #592e83;
+    border-color: #592e83;
+  }
+  .fa-history {
+    color: #2c2b2b;
+  }
+</style>
 <div class="container mt-5">
   <form method="get" action="/movimientos">
     <div class="d-flex justify-content-center">
@@ -36,7 +50,7 @@
       <div class="card my-4">
         <div class="card-header">
           <h2 class="text-primary text-center">
-            <i class="fas fa-history"></i> Historial de Transacciones
+            <i class="fas fa-history"> Historial de Transacciones</i>
           </h2>
         </div>
         <div class="table-responsive">
@@ -64,7 +78,7 @@
                   </span>
                   {% elif item['Type'] == 2 %}
                   <span class="text-danger">
-                    <i class="fas fa-arrow-down"></i> Egreso
+                    <i class="fas fa-arrow-down"> </i>Egreso
                   </span>
                   {% endif %}
                 </td>
@@ -74,8 +88,7 @@
                   >
                 </td>
               </tr>
-              {% endfor %} 
-              {% if not data %}
+              {% endfor %} {% if not data %}
               <tr>
                 <td colspan="4" class="text-center">
                   No se encontraron transacciones.

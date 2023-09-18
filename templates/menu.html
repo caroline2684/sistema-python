@@ -21,10 +21,10 @@
       crossorigin="anonymous"
     ></script>
 
-    <link href="styles.css" rel="stylesheet" />
+    <link href="/frontend/styles/styles.css" rel="stylesheet" />
     <style>
       .navbar {
-        background-color: #9984D4; /* Color de fondo azul */
+        background-color: #9984d4; /* Color de fondo azul */
         padding: 10px; /* Añade espacio alrededor del menú */
       }
     </style>
@@ -37,23 +37,23 @@
       >
         <div class="container-fluid">
           <h1 class="navbar-brand">
-            <i class="fas fa-piggy-bank"></i> B. OFMD
+            <i class="fas fa-piggy-bank"> B. OFMD</i>
           </h1>
 
           <a href="{{ url_for('movimientos') }}" class="navbar-brand"
-            ><i class="fas fa-money-check-alt"></i> Movimientos</a
+            ><i class="fas fa-money-check-alt"> Movimientos</i></a
           >
 
           <a href="{{ url_for('ingreso') }}" class="navbar-brand"
-            ><i class="fas fa-money-bill-wave-alt"></i> Ingreso</a
+            ><i class="fas fa-money-bill-wave-alt"> Ingreso</i></a
           >
 
           <a href="{{ url_for('egreso') }}" class="navbar-brand"
-            ><i class="fas fa-wallet"></i> Egreso</a
+            ><i class="fas fa-wallet"> Egreso</i></a
           >
 
           <a href="{{ url_for('perfil') }}" class="navbar-brand"
-            ><i class="fas fa-user"></i> Perfil</a
+            ><i class="fas fa-user"> Perfil</i></a
           >
 
           <a href="{{ url_for('logout') }}" class="navbar-brand"
