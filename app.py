@@ -4,7 +4,7 @@ from bson import ObjectId
 from pymongo import MongoClient
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
-
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
@@ -24,16 +24,9 @@ def index():
 
 @app.route("/movimientos", methods=["GET", "POST"])
 def movimientos():
-    # Obtener los datos almacenados en la sesión
+    # Obtener el ID de usuario actual desde la sesión
     usernid = session.get("username")
     usuario_id = ObjectId(usernid)
-    collection = db["Transaction"]
-    print(usuario_id)
-
-    # Obtener el saldo actual del usuario
-    client = db["clientes"]
-    mount = client.find_one({"_id": usuario_id})
-    monto = mount.get("monto")
 
     # Obtener los parámetros de búsqueda del formulario
     fecha_inicio = request.args.get("fecha_inicio")
@@ -45,35 +38,47 @@ def movimientos():
     if fecha_inicio and fecha_fin:
         filter_query["date"] = {"$gte": fecha_inicio, "$lte": fecha_fin}
 
-    result = collection.find(filter_query)
-    result = list(result)
+    # Obtener y ordenar las transacciones por fecha en orden ascendente
+    collection = db["Transaction"]
+    result = collection.find(filter_query).sort("date", 1)
 
-    # Inicializar el saldo total con el monto original
-    saldo_total = monto
+    # Crear una lista para almacenar los registros formateados
+    registros_formateados = []
 
-    # Calcular y agregar el saldo total a cada transacción
+    # Inicializar el saldo total en 0
+    saldo_total = 0
+
+    # Calcular el saldo total para cada transacción y almacenarlas en orden descendente
+    transacciones_ordenadas = []
     for item in result:
+        # Formatear la fecha
+        fecha_formateada = datetime.strptime(
+            item["date"], "%Y-%m-%d %H:%M:%S"
+        ).strftime("%Y-%m-%d %I:%M %p")
+
+        # Formatear el tipo de transacción
+        tipo_transaccion = "Ingreso" if item["Type"] == 1 else "Egreso"
+
+        # Calcular el saldo total para esta transacción
         if item["Type"] == 1:  # Ingreso
             saldo_total += int(item["mount"])
         elif item["Type"] == 2:  # Egreso
             saldo_total -= int(item["mount"])
-        item["saldo_total"] = saldo_total
 
-    # Ordenar por fecha en orden descendente (más reciente primero)
-    result.sort(key=lambda x: x["date"], reverse=True)
-
-    # Formatea las fechas en el resultado
-    for item in result:
-        item["date"] = datetime.strptime(item["date"], "%Y-%m-%d %H:%M:%S").strftime(
-            "%Y-%m-%d %I:%M %p"
+        # Agregar el registro formateado a la lista de transacciones ordenadas
+        transacciones_ordenadas.insert(
+            0,  # Insertar al principio para orden descendente
+            {
+                "Registro": fecha_formateada,
+                "Tipo de Transacción": tipo_transaccion,
+                "Valor": f"${item['mount']}",
+                "Saldo Total": f"${saldo_total}",
+            },
         )
 
-    if result:
-        print(result[0])  # Acceder al primer elemento del cursor
-    else:
-        print("El cursor está vacío")
-    print("este es el dni")
-    return render_template("movimientos.html", data=result, monto=monto)
+    return render_template(
+        "movimientos.html", data=transacciones_ordenadas, monto=saldo_total
+    )
 
 
 @app.route("/login", methods=["POST"])
@@ -156,7 +161,6 @@ def guardar():
     sessions.end_session()
     session["resultado_ingreso"] = resultado
     return redirect(url_for("ingreso"))
-
 
 @app.route("/egreso", methods=["GET"])
 def egreso():

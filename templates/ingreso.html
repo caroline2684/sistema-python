@@ -1,6 +1,30 @@
 {% extends 'menu.html' %} {% block title %}Ingreso - Banca Web{% endblock %} {%
 block content %}
 <style>
+  /* Agrega estilos para el mensaje de éxito */
+  .mensaje-ingreso {
+    display: none; /* Inicialmente oculto */
+    background-color: #4caf50; /* Fondo verde */
+    color: #fff; /* Texto blanco */
+    padding: 10px; /* Espaciado interno */
+    border-radius: 5px; /* Esquinas redondeadas */
+    font-size: 18px; /* Tamaño de fuente más grande */
+    text-align: center; /* Centrar el texto */
+    margin-top: 20px; /* Espaciado superior */
+    animation: fadeIn 1s ease; /* Animación de entrada */
+  }
+
+  /* Definir la animación de entrada */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
   .saldo-actual {
     background-color: #592e83; /* Fondo azul */
     color: #fff; /* Texto blanco */
@@ -48,6 +72,9 @@ block content %}
           <p class="text-center saldo-actual">
             <i class="fas fa-wallet"></i> Saldo actual: ${{ monto }}
           </p>
+          <div class="mensaje-ingreso" id="mensajeIngreso">
+            <i class="fas fa-check-circle"> Ingreso realizado con éxito</i>
+          </div>
         </div>
       </div>
     </div>
@@ -55,21 +82,33 @@ block content %}
 </body>
 
 <script>
-  function dashboard() {
-    location.href = "http://127.0.0.1:5000/movimientos";
-  }
+  document.addEventListener("DOMContentLoaded", function () {
+    // Función para mostrar el mensaje de éxito con animación
+    function mostrarMensajeIngreso() {
+      var mensajeIngreso = document.getElementById("mensajeIngreso");
+      mensajeIngreso.style.display = "block"; // Mostrar el mensaje
 
-  function ingreso(ingreso) {
-    location.href = "http://127.0.0.1:5000/ingreso";
-  }
-  function egreso(ingreso) {
-    location.href = "http://127.0.0.1:5000/egreso";
-  }
-  function actualizar(params) {
-    location.href = "http://127.0.0.1:5000/actualizar";
-  }
-  function cerrarSesion() {
-    location.href = "http://127.0.0.1:5000";
-  }
+      setTimeout(function () {
+        mensajeIngreso.style.display = "none"; // Ocultar el mensaje después de 3 segundos
+      }, 3000); // 3000 ms = 3 segundos
+    }
+
+    function dashboard() {
+      location.href = "http://127.0.0.1:5000/movimientos";
+    }
+
+    function ingreso(ingreso) {
+      location.href = "http://127.0.0.1:5000/ingreso";
+    }
+    function egreso(ingreso) {
+      location.href = "http://127.0.0.1:5000/egreso";
+    }
+    function actualizar(params) {
+      location.href = "http://127.0.0.1:5000/actualizar";
+    }
+    function cerrarSesion() {
+      location.href = "http://127.0.0.1:5000";
+    }
+  });
 </script>
 {% endblock %}

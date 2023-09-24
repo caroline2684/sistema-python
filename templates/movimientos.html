@@ -46,7 +46,7 @@
 
 <div class="container mt-5">
   <div class="row justify-content-center">
-    <div class="col-lg-10">
+    <div class="col-lg-12">
       <div class="card my-4">
         <div class="card-header">
           <h2 class="text-primary text-center">
@@ -60,23 +60,24 @@
                 <th>Registro</th>
                 <th class="text-center">Tipo de Transacción</th>
                 <th class="text-center">Valor</th>
+                <th class="text-center">Saldo Total</th>
               </tr>
             </thead>
             <tbody>
-              {% for item in data %}
+              {% set saldo = monto %} {% for item in data %}
               <tr>
                 <td>
                   <div class="d-flex align-items-center">
                     <i class="fas fa-calendar-alt mr-2"></i>
-                    <span class="text-sm">{{ item['date'] }}</span>
+                    <span class="text-sm">{{ item['Registro'] }}</span>
                   </div>
                 </td>
                 <td class="align-middle text-center">
-                  {% if item['Type'] == 1 %}
+                  {% if item['Tipo de Transacción'] == "Ingreso" %}
                   <span class="text-success">
                     <i class="fas fa-arrow-up"></i> Ingreso
                   </span>
-                  {% elif item['Type'] == 2 %}
+                  {% elif item['Tipo de Transacción'] == "Egreso" %}
                   <span class="text-danger">
                     <i class="fas fa-arrow-down"> </i>Egreso
                   </span>
@@ -84,7 +85,12 @@
                 </td>
                 <td class="align-middle text-center">
                   <span class="text-xs font-weight-bold"
-                    >${{ item['mount'] }}</span
+                    >{{ item['Valor'] }}</span
+                  >
+                </td>
+                <td class="align-middle text-center">
+                  <span class="text-xs font-weight-bold"
+                    >{{ item['Saldo Total'] }}</span
                   >
                 </td>
               </tr>
