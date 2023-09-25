@@ -7,6 +7,8 @@
     background-attachment: fixed;
   }
   .btn-primary {
+    padding: auto;
+    margin-top: 25px;
     background-color: #592e83;
     border-color: #592e83;
   }
@@ -16,29 +18,29 @@
 </style>
 <div class="container mt-5">
   <form method="get" action="/movimientos">
-    <div class="d-flex justify-content-center">
-      <div class="input-group mb-3">
-        <div class="col-lg-4 pr-2">
-          <input
-            type="date"
-            id="fecha_inicio"
-            name="fecha_inicio"
-            class="form-control"
-          />
-        </div>
-        <div class="col-lg-4 pr-2">
-          <input
-            type="date"
-            id="fecha_fin"
-            name="fecha_fin"
-            class="form-control"
-          />
-        </div>
-        <div class="col-lg-4">
-          <button type="submit" class="btn btn-primary btn-block">
-            Filtrar
-          </button>
-        </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-4 mb-3">
+        <b><label for="fecha_inicio" class="form-label">Fecha de Inicio:</label></b>
+        <input
+          type="date"
+          id="fecha_inicio"
+          name="fecha_inicio"
+          class="form-control"
+        />
+      </div>
+      <div class="col-lg-4 mb-3">
+        <b><label for="fecha_fin" class="form-label">Fecha de Fin:</label></b>
+        <input
+          type="date"
+          id="fecha_fin"
+          name="fecha_fin"
+          class="form-control"
+        />
+      </div>
+      <div class="col-lg-4 mb-3">
+        <label class="invisible">Filtrar</label>
+        <!-- Agrega una etiqueta invisible para mejorar la alineación -->
+        <button type="submit" class="btn btn-primary btn-block">Filtrar</button>
       </div>
     </div>
   </form>
