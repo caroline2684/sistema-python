@@ -19,14 +19,14 @@ endblock %} {% block content %}
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
             <i class="fas fa-user-circle">
-              <strong>Nombre de Usuario:</strong> {{ username }}</i
+              <strong>Nombre de Usuario: {{ username }}</strong></i
             >
           </li>
           <li class="list-group-item">
-            <i class="fas fa-user"> <strong>Nombre:</strong> {{ name }}</i>
+            <i class="fas fa-user"> <strong>Nombre: {{ name }}</strong></i>
           </li>
           <li class="list-group-item">
-            <i class="fas fa-id-card"> <strong>DNI:</strong> {{ dni }}</i>
+            <i class="fas fa-id-card"> <strong>DNI: {{ dni }}</strong></i>
           </li>
         </ul>
       </div>
@@ -63,6 +63,23 @@ endblock %} {% block content %}
               required
             />
           </div>
+          <div class="mb-3">
+            <label for="repetir_contrasena"
+              ><i class="fas fa-key"></i> Repetir Nueva Contraseña:</label
+            >
+            <input
+              type="password"
+              class="form-control"
+              id="repetir_contrasena"
+              name="repetir_contrasena"
+              required
+            />
+          </div>
+          <!-- Agregar un mensaje de error si las contraseñas no coinciden -->
+          {% with messages = get_flashed_messages(with_categories=true) %} {% if
+          messages %} {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+          {% endfor %} {% endif %} {% endwith %}
           <center>
             <button type="submit" class="btn btn-primary">
               <i class="fas fa-check"></i> Cambiar Contraseña

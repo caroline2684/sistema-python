@@ -1,12 +1,16 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask.helpers import get_flashed_messages
+from flask_paginate import Pagination, get_page_parameter
 from datetime import datetime
 from bson import ObjectId
+from math import ceil
 from pymongo import MongoClient
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
+app.secret_key = "clave"
 
 # Configuramos la conexion al replicaset de mongo
 client = MongoClient(
@@ -21,6 +25,8 @@ db = client.bank1
 def index():
     return sign()
 
+
+from math import ceil  # Asegúrate de importar la función ceil desde math
 
 @app.route("/movimientos", methods=["GET", "POST"])
 def movimientos():
@@ -80,10 +86,9 @@ def movimientos():
         "movimientos.html", data=transacciones_ordenadas, monto=saldo_total
     )
 
-
 @app.route("/login", methods=["POST"])
 def login():
-    # verificar usuario y contraseña
+    # Recupera el nombre de usuario y contraseña del formulario
     username = request.form["username"]
     contrasena = request.form["contrasena"]
 
@@ -96,10 +101,8 @@ def login():
         session["username"] = str(result["_id"])
         return redirect(url_for("ingreso"))
     else:
+        flash("Usuario o contraseña incorrectos", "error")
         return redirect(url_for("logout"))
-
-
-app.secret_key = "clave"
 
 
 @app.route("/ingreso", methods=["GET"])
@@ -125,10 +128,13 @@ def ingreso():
 @app.route("/ingreso", methods=["POST"])
 def guardar():
     monto = request.form["monto"]
-    print(monto)
+    if not monto:
+        error_message = "El campo monto no puede estar vacío."
+        return render_template("ingreso.html", error_message=error_message)
+
     # Actualizar saldo
     usernid = session.get("username")
-    print(usernid)
+
     usuario_id = ObjectId(usernid)
     collection = db["Transaction"]
     collections = db["clientes"]
@@ -159,8 +165,9 @@ def guardar():
             resultado = "Error al actualizar el saldo"
 
     sessions.end_session()
-    session["resultado_ingreso"] = resultado
+    session["resultado_ingreso"] = "¡Saldo actualizado!"
     return redirect(url_for("ingreso"))
+
 
 @app.route("/egreso", methods=["GET"])
 def egreso():
@@ -185,7 +192,14 @@ def egreso():
 
 @app.route("/egreso", methods=["POST"])
 def retiro():
-    monto = int(request.form["monto"])
+    monto = request.form.get("monto")
+
+    if not monto:
+        error_message = "El campo monto no puede estar vacío."
+        return render_template("egreso.html", error_message=error_message)
+
+    monto = int(monto)
+
     usernid = session.get("username")
     usuario_id = ObjectId(usernid)
     collection = db["Transaction"]
@@ -193,12 +207,13 @@ def retiro():
     fecha_actual = datetime.now()
     fecha_formateada = fecha_actual.strftime("%Y-%m-%d %H:%M:%S")
     sessions = client.start_session()
+
     with sessions.start_transaction():
         try:
             cliente = collections.find_one({"_id": usuario_id})
             monto_actual = cliente["monto"]
-
             # Verificar Saldo
+
             if monto_actual >= monto:
                 # Realizar el Egreso
                 collection.insert_one(
@@ -215,15 +230,17 @@ def retiro():
                 sessions.commit_transaction()
                 resultado = "¡Egreso realizado correctamente!"
             else:
-                sessions.abort_transaction()
                 resultado = "Error: El saldo actual es insuficiente"
+
+            # Configura la variable de sesión en ambos casos (éxito o insuficiencia de saldo)
+            session["resultado_egreso"] = resultado
 
         except:
             sessions.abort_transaction()
             resultado = "Error al realizar el egreso"
 
     sessions.end_session()
-    session["resultado_egreso"] = resultado
+
     return redirect(url_for("egreso"))
 
 
@@ -244,23 +261,31 @@ def perfilusuario():
             username = usuario.get("username")
 
             if request.method == "POST":
-                # Obtener la nueva contraseña del formulario
+                # Obtener la nueva contraseña y la repetición de la nueva contraseña del formulario
                 nueva_contrasena = request.form["nueva_contrasena"]
+                repetir_contrasena = request.form["repetir_contrasena"]
+                # Verificar si las contraseñas coinciden
+                if nueva_contrasena == repetir_contrasena:
+                    # Generar el hash de la nueva contraseña
+                    nueva_contrasena_hashed = generate_password_hash(
+                        nueva_contrasena, method="sha256"
+                    )
 
-                # Generar el hash de la nueva contraseña
-                nueva_contrasena_hashed = generate_password_hash(
-                    nueva_contrasena, method="sha256"
-                )
+                    # Actualizar el campo de contraseña en la base de datos con el nuevo hash
+                    db["clientes"].update_one(
+                        {"_id": usuario["_id"]},
+                        {"$set": {"contraseña": nueva_contrasena_hashed}},
+                    )
 
-                # Actualizar el campo de contraseña en la base de datos con el nuevo hash
-                db["clientes"].update_one(
-                    {"_id": usuario["_id"]},
-                    {"$set": {"contraseña": nueva_contrasena_hashed}},
-                )
-
-                # Redirigir a la página de perfil después de cambiar la contraseña
-                flash("Contraseña actualizada con éxito.", "success")
-                return redirect(url_for("perfilusuario"))
+                    # Redirigir a la página de perfil después de cambiar la contraseña
+                    flash("Contraseña actualizada con éxito.", "success")
+                    return redirect(url_for("perfilusuario"))
+                else:
+                    # Las contraseñas no coinciden, mostrar un mensaje de error
+                    flash(
+                        "Las contraseñas no coinciden. Por favor, inténtalo de nuevo.",
+                        "error",
+                    )
 
             return render_template("perfil.html", name=name, dni=dni, username=username)
 
@@ -273,6 +298,7 @@ def perfilusuario():
 def logout():
     if "username" in session:
         session.pop("username")
+    session.pop("username", None)
     return redirect(url_for("index"))
 
 

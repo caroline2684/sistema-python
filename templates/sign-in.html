@@ -112,6 +112,16 @@
                   ><i class="fas fa-user-plus"> Registrarse</i></a
                 >
               </p>
+              {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+              <div class="alert alert-danger">
+                <ul>
+                  {% for category, message in messages %}
+                  <li>{{ message }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+              {% endif %} {% endwith %}
             </div>
           </div>
         </div>

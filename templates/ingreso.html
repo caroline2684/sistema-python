@@ -1,9 +1,9 @@
 {% extends 'menu.html' %} {% block title %}Ingreso - Banca Web{% endblock %} {%
 block content %}
 <style>
-  /* Agrega estilos para el mensaje de éxito */
+  /* Estilo base del mensaje de éxito */
   .mensaje-ingreso {
-    display: none; /* Inicialmente oculto */
+    display: none;
     background-color: #4caf50; /* Fondo verde */
     color: #fff; /* Texto blanco */
     padding: 10px; /* Espaciado interno */
@@ -11,7 +11,7 @@ block content %}
     font-size: 18px; /* Tamaño de fuente más grande */
     text-align: center; /* Centrar el texto */
     margin-top: 20px; /* Espaciado superior */
-    animation: fadeIn 1s ease; /* Animación de entrada */
+    animation: fadeIn 1s; /* Animación de entrada */
   }
 
   /* Definir la animación de entrada */
@@ -25,6 +25,12 @@ block content %}
       transform: translateY(0);
     }
   }
+
+  /* Estilo para mostrar el mensaje */
+  .mensaje-ingreso.mostrado {
+    display: block;
+  }
+
   .saldo-actual {
     background-color: #592e83; /* Fondo azul */
     color: #fff; /* Texto blanco */
@@ -50,7 +56,11 @@ block content %}
           <h1><i class="fas fa-coins"></i> Ingresar Saldo</h1>
         </div>
         <div class="card-body">
-          <form action="/ingreso" method="post">
+          <form
+            action="/ingreso"
+            method="post"
+            onsubmit="mostrarMensajeIngreso()"
+          >
             <div class="mb-3">
               <label for="monto" class="form-label">Saldo a ingresar:</label>
               <div class="input-group">
@@ -73,8 +83,11 @@ block content %}
             <i class="fas fa-wallet"></i> Saldo actual: ${{ monto }}
           </p>
           <div class="mensaje-ingreso" id="mensajeIngreso">
-            <i class="fas fa-check-circle"> Ingreso realizado con éxito</i>
+            <i class="fas fa-check-circle"> Ingreso realizado con Exito</i>
           </div>
+          {% if error_message %}
+          <div class="alert alert-danger" role="alert">{{ error_message }}</div>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -82,33 +95,29 @@ block content %}
 </body>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    // Función para mostrar el mensaje de éxito con animación
-    function mostrarMensajeIngreso() {
-      var mensajeIngreso = document.getElementById("mensajeIngreso");
-      mensajeIngreso.style.display = "block"; // Mostrar el mensaje
+  function mostrarMensajeIngreso() {
+    var mensajeIngreso = document.getElementById("mensajeIngreso");
+    mensajeIngreso.classList.add("mostrado"); // Agregar la clase "mostrado" al mensaje
 
-      setTimeout(function () {
-        mensajeIngreso.style.display = "none"; // Ocultar el mensaje después de 3 segundos
-      }, 3000); // 3000 ms = 3 segundos
-    }
+    setTimeout(function () {
+      mensajeIngreso.classList.remove("mostrado"); // Quitar la clase después de 3 segundos
+    }, 50000);
+  }
+  function dashboard() {
+    location.href = "http://127.0.0.1:5000/movimientos";
+  }
 
-    function dashboard() {
-      location.href = "http://127.0.0.1:5000/movimientos";
-    }
-
-    function ingreso(ingreso) {
-      location.href = "http://127.0.0.1:5000/ingreso";
-    }
-    function egreso(ingreso) {
-      location.href = "http://127.0.0.1:5000/egreso";
-    }
-    function actualizar(params) {
-      location.href = "http://127.0.0.1:5000/actualizar";
-    }
-    function cerrarSesion() {
-      location.href = "http://127.0.0.1:5000";
-    }
-  });
+  function ingreso(ingreso) {
+    location.href = "http://127.0.0.1:5000/ingreso";
+  }
+  function egreso(ingreso) {
+    location.href = "http://127.0.0.1:5000/egreso";
+  }
+  function actualizar(params) {
+    location.href = "http://127.0.0.1:5000/actualizar";
+  }
+  function cerrarSesion() {
+    location.href = "http://127.0.0.1:5000";
+  }
 </script>
 {% endblock %}
